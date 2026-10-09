@@ -191,11 +191,79 @@ function Fade({
   );
 }
 
+const COUPONS = [
+  {
+    title: "Garage door tune-up",
+    price: "$125",
+    lines: ["Includes tax & labor", "Full tune-up"],
+  },
+  {
+    title: "Dual spring change",
+    price: "$350",
+    lines: ["Includes tax & labor", "10-year warranty", "Torque tubes $450"],
+  },
+  {
+    title: "Garage door motor",
+    price: "$700",
+    lines: ["7' Genie 2028 belt drive", "2 remotes and a keypad"],
+  },
+];
+
+function CouponBoard() {
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById("coupons");
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setLive(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setLive(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div id="coupons" className="coupon-wood">
+      <div className="mx-auto max-w-6xl px-5">
+        <div className={`coupon-row ${live ? "is-live" : ""}`}>
+          {COUPONS.map((coupon) => (
+            <article key={coupon.title} className="coupon">
+              <h2 className="font-display text-xl">{coupon.title}</h2>
+              <p className="font-display mt-3 text-6xl leading-none text-signal">{coupon.price}</p>
+              <ul className="mt-3 space-y-1 text-sm text-muted">
+                {coupon.lines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+        <div className="no-print mt-8 flex justify-center">
+          <button type="button" className="btn bg-signal px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white uppercase hover:bg-signal-hover" onClick={() => window.print()}>
+            Print coupons
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Home() {
   return (
     <main id="top">
       <LocalSchema />
-      <section className="grid bg-paper text-ink lg:grid-cols-[0.9fr_1.1fr]">
+      <section className="grid bg-paper text-ink lg:grid-cols-[0.9fr_1.1fr] min-[1600px]:mx-auto min-[1600px]:w-full min-[1600px]:max-w-[1440px]">
         <div className="order-2 flex items-center bg-paper px-5 py-16 lg:order-1 lg:px-16 lg:py-24">
           <div className="rise-in max-w-xl">
             <p className="kicker">Family owned · Boise, Idaho</p>
@@ -297,7 +365,7 @@ function Home() {
       </section>
 
       <section id="about" className="scroll-mt-24">
-        <div className="relative min-h-[28rem] md:min-h-[46rem]">
+        <div className="relative min-h-[28rem] md:min-h-[46rem] min-[1600px]:mx-auto min-[1600px]:max-h-[52rem] min-[1600px]:max-w-[1440px]">
           <img src="/images/shop-photo.webp" alt="Garage Door Store Boise crew and service trucks" width={1400} height={588} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
           <p className="absolute top-5 left-5 z-10 bg-graphite px-4 py-2 text-xs font-bold tracking-[0.16em] text-white uppercase">The crew</p>
           <div className="relative z-10 flex min-h-[28rem] items-end p-4 md:min-h-[46rem] md:p-10">
@@ -387,7 +455,7 @@ function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-5 py-8 md:flex-row md:items-center">
           <div>
             <p className="text-xs font-bold tracking-[0.16em] text-signal uppercase">24/7 technician line</p>
-            <p className="mt-2 max-w-xl font-display text-3xl leading-tight md:text-4xl">Call now. Free in-home estimate, and 10% off.</p>
+            <p className="mt-2 max-w-xl text-balance font-display text-[clamp(1.35rem,2.6vw,2.75rem)] leading-none">Call now. Free in-home estimate, and 10% off.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <a href="tel:2085142871" className="btn bg-signal px-6 py-3 text-sm font-semibold text-white hover:bg-signal-hover">Call us now</a>
@@ -404,35 +472,16 @@ function Home() {
               <h2 className="mt-3 max-w-xl text-4xl md:text-5xl">Set prices from the Boise shop</h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">Printed on garagedoorstoreboise.com. Tax and labor are included where noted. Call if the door is a different size.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a href="tel:2085142871" className="btn bg-signal px-6 py-3 text-sm font-semibold text-white hover:bg-signal-hover">Call us now</a>
-              <a href="#quote" className="btn border border-ink/20 bg-paper px-6 py-3 text-sm font-semibold text-ink hover:bg-white">Get free estimate</a>
-            </div>
           </div>
-          <ul className="price-row mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {(
-              [
-                ["$125", "Garage door tune-up", ["Full tune-up", "Tax and labor included"]],
-                ["$350", "Dual spring change", ["Tax and labor included", "10-year warranty"]],
-                ["$450", "Torque tubes", ["Posted price"]],
-                ["$700", "Garage door motor", ["7-foot Genie 2028 belt drive", "2 remotes and a keypad"]],
-              ] as const
-            ).map(([price, name, lines]) => (
-              <Fade as="li" key={name} className="price-card flex h-full flex-col items-center border border-ink/20 bg-paper px-5 pt-7 pb-5 text-center">
-                <h3 className="flex min-h-12 items-center justify-center text-lg leading-snug">{name}</h3>
-                <p className="font-display text-6xl leading-none text-signal md:text-7xl">{price}</p>
-                <ul className="mt-4 mb-5 flex min-h-12 w-full flex-col items-center justify-start gap-1 text-sm leading-snug text-muted">
-                  {lines.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-                <a href="tel:2085142871" className="btn w-full bg-signal py-3 text-sm font-semibold text-white hover:bg-signal-hover">Call us now</a>
-              </Fade>
-            ))}
-          </ul>
+        </div>
+        <div className="mt-10">
+          <CouponBoard />
         </div>
         <div className="mx-auto mt-10 flex max-w-6xl flex-col items-start justify-between gap-6 bg-graphite px-6 py-8 text-white md:flex-row md:items-center">
-          <h2 className="max-w-lg text-4xl md:text-5xl">Free in-home estimate, and 10% off.</h2>
+          <h2 className="text-4xl leading-none md:text-5xl">
+            <span className="block">Free in-home estimate,</span>
+            <span className="block">and 10% off.</span>
+          </h2>
           <a href="#quote" className="btn bg-signal px-6 py-3.5 text-sm font-semibold text-white hover:bg-signal-hover">Get free estimate</a>
         </div>
       </section>
@@ -440,22 +489,18 @@ function Home() {
       <section id="why" className="scroll-mt-24 bg-stone py-20">
         <div className="mx-auto max-w-6xl px-5">
           <SectionHead kicker="Why this shop" title="Why Boise calls Garage Door Store" />
-          <div className="mt-12 space-y-4">
-            {[0, 1].map((row) => (
-              <ul key={row} className="why-row grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {reasons.slice(row * 3, row * 3 + 3).map((item, index) => (
-                  <Fade as="li" key={item.title} className="why-card flex h-full flex-col border border-ink/15 bg-paper p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <img src={item.sketch} alt={item.alt} width={1408} height={1408} loading="lazy" className="h-16 w-16 object-contain" />
-                      <p className="font-display text-3xl leading-none text-signal">0{row * 3 + index + 1}</p>
-                    </div>
-                    <h3 className="mt-6 text-2xl">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{item.copy}</p>
-                  </Fade>
-                ))}
-              </ul>
+          <ul className="why-row mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {reasons.map((item, index) => (
+              <Fade as="li" key={item.title} className="why-card flex h-full flex-col border border-ink/15 bg-paper p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <img src={item.sketch} alt={item.alt} width={1408} height={1408} loading="lazy" className="h-16 w-16 object-contain" />
+                  <p className="font-display text-3xl leading-none text-signal">0{index + 1}</p>
+                </div>
+                <h3 className="mt-6 text-2xl">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{item.copy}</p>
+              </Fade>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -467,23 +512,26 @@ function Home() {
             <SectionHead kicker="Door styles" title="Garage door work around Treasure Valley" />
             <p className="max-w-sm text-sm leading-relaxed text-muted">Standard and carriage-style doors, plus Wayne Dalton, LiftMaster, Clopay, and Genie products to choose from.</p>
           </div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {(
               [
-                ["/images/jobs/standard.jpg", "Standard", "Custom installation of standard doors."],
-                ["/images/jobs/carriage.jpg", "Carriage", "Custom installation of carriage-style doors."],
-                ["/images/jobs/wood.jpg", "Wood", "The shop has written about custom wood doors for homes in Meridian."],
-                ["/images/jobs/genie-2028.jpg", "Openers", "Posted package: 7-foot Genie 2028 belt drive, 2 remotes, and a keypad."],
+                ["/images/jobs/standard.jpg", "Standard", "Custom installation of standard doors.", "object-cover object-[center_36%]"],
+                ["/images/jobs/carriage.jpg", "Carriage", "Custom installation of carriage-style doors.", "object-cover object-[center_32%]"],
+                ["/images/jobs/wood.jpg", "Wood", "The shop has written about custom wood doors for homes in Meridian.", "object-cover object-[center_42%]"],
+                ["/images/jobs/genie-2028.jpg", "Openers", "Posted package: 7-foot Genie 2028 belt drive, 2 remotes, and a keypad.", "object-contain bg-[#eceae6] p-8"],
               ] as const
-            ).map(([src, kind, note], i) => (
-              <Fade as="a" href="#quote" key={kind} className="group relative block overflow-hidden">
-                <div className="h-64 overflow-hidden sm:h-80 md:h-[28rem]">
-                  <img src={src} alt={`${kind} garage door style`} width={1792} height={1008} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
-                </div>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-graphite via-graphite/85 to-transparent px-6 pt-20 pb-5 text-white">
-                  <p className="text-[11px] font-bold tracking-[0.16em] text-signal">0{i + 1}</p>
-                  <p className="mt-1 font-display text-4xl">{kind}</p>
-                  <p className="mt-1 max-w-md text-sm text-white/75">{note}</p>
+            ).map(([src, kind, note, fit], i) => (
+              <Fade as="a" href="#quote" key={kind} className="group relative block aspect-[5/4] overflow-hidden bg-graphite">
+                <img src={src} alt={`${kind} garage door style`} width={1792} height={1008} loading="lazy" className={`h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.04] ${fit}`} />
+                <div className="absolute inset-x-3 bottom-3 border border-white/80 bg-paper/95 px-4 py-3 transition-transform duration-300 group-hover:-translate-y-1">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-display text-3xl leading-none">{kind}</p>
+                      <p className="mt-1.5 text-sm leading-snug text-muted">{note}</p>
+                    </div>
+                    <p className="font-display text-3xl leading-none text-signal">0{i + 1}</p>
+                  </div>
+                  <span className="mt-3 block h-0.5 w-8 bg-signal transition-all duration-300 group-hover:w-16" />
                 </div>
               </Fade>
             ))}
@@ -666,7 +714,7 @@ function Quote() {
   const [name, setName] = useState("");
 
   return (
-    <section id="quote" className="scroll-mt-24 grid lg:grid-cols-2">
+    <section id="quote" className="scroll-mt-24 grid w-full lg:grid-cols-2 min-[1600px]:mx-auto min-[1600px]:max-w-[1440px]">
       <Fade className="bg-graphite px-6 py-16 text-white lg:px-14 lg:py-20">
           <p className="text-xs font-bold tracking-[0.16em] text-white/60 uppercase">Free in-home consultation</p>
           <h2 className="mt-3 text-4xl md:text-6xl">Request a garage door repair quote in Boise</h2>
@@ -714,15 +762,15 @@ function Quote() {
           >
             <div>
               <label className="text-sm font-semibold" htmlFor="name">Name</label>
-              <input id="name" name="name" required placeholder="Your name" className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
+              <input id="name" name="name" required placeholder="Your name" suppressHydrationWarning className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
             </div>
             <div>
               <label className="text-sm font-semibold" htmlFor="phone">Phone</label>
-              <input id="phone" name="phone" required type="tel" placeholder="Best number" className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
+              <input id="phone" name="phone" required type="tel" placeholder="Best number" suppressHydrationWarning className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
             </div>
             <div className="sm:col-span-2">
               <label className="text-sm font-semibold" htmlFor="email">Email</label>
-              <input id="email" name="email" required type="email" placeholder="you@email.com" autoComplete="email" className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
+              <input id="email" name="email" required type="email" placeholder="you@email.com" autoComplete="email" suppressHydrationWarning className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
             </div>
             <div>
               <label className="text-sm font-semibold" htmlFor="city">City</label>
@@ -745,7 +793,7 @@ function Quote() {
             </div>
             <div className="sm:col-span-2">
               <label className="text-sm font-semibold" htmlFor="notes">What’s wrong</label>
-              <textarea id="notes" name="notes" rows={4} placeholder="Spring, off track, opener, or a new door" className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
+              <textarea id="notes" name="notes" rows={4} placeholder="Spring, off track, opener, or a new door" suppressHydrationWarning className="field mt-1 w-full min-w-0 border-b border-line bg-transparent px-4 py-3.5 outline-none focus:border-signal" />
             </div>
             <button type="submit" className="btn w-fit bg-signal px-6 py-3 text-sm font-bold text-white hover:bg-signal-hover">
               Send request
