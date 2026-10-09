@@ -153,12 +153,15 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           </div>
         </div>
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4 text-xs text-white/55">
-            <p>Garage Door Store Boise, Inc. · 9075 W Hackamore Dr, Boise, ID 83709</p>
-            <p className="flex items-center gap-3">
-              <Link to="/privacy" className="hover:text-white">Privacy</Link>
-              <Link to="/terms" className="hover:text-white">Terms</Link>
-            </p>
+          <div className="mx-auto flex max-w-5xl flex-col gap-3 px-5 py-4 text-xs text-white/55">
+            <p className="max-w-3xl text-sm leading-relaxed text-pretty text-white/70">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p>Garage Door Store Boise, Inc. · 9075 W Hackamore Dr, Boise, ID 83709</p>
+              <p className="flex items-center gap-3">
+                <Link to="/privacy" className="hover:text-white">Privacy</Link>
+                <Link to="/terms" className="hover:text-white">Terms</Link>
+              </p>
+            </div>
           </div>
         </div>
       </footer>

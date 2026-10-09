@@ -1445,6 +1445,21 @@
     font-size: 0.88rem;
   }
 
+  .template-sign,
+  .foot .template-sign {
+    display: block;
+    width: 100%;
+    max-width: 46rem;
+    margin: 1.1rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid #3a322c;
+    color: #b9b3aa;
+    font-size: 0.92rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
   .ask-widget {
     position: fixed;
     z-index: 50;
@@ -2025,8 +2040,15 @@
 
     .legal {
       flex-direction: column;
+      align-items: flex-start;
       padding-right: 4.4rem;
       padding-bottom: 1rem;
+    }
+
+    .template-sign,
+    .foot .template-sign {
+      padding-right: 0;
+      padding-bottom: 0.4rem;
     }
 
     .fine {

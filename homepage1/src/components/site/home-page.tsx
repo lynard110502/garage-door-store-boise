@@ -924,9 +924,9 @@ export function HomePage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6 text-sm text-muted">
-            <p>© {new Date().getFullYear()} Garage Door Store Boise. Licensed and insured.</p>
-            <a href="#top" className="hover:text-red">Back to top</a>
+          <div className="flex flex-col gap-3 border-t border-line pt-6 text-sm leading-relaxed text-muted sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+            <p className="max-w-3xl text-pretty">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
+            <a href="#top" className="shrink-0 hover:text-red">Back to top</a>
           </div>
         </div>
       </footer>

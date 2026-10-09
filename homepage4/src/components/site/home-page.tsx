@@ -1374,8 +1374,8 @@ export function HomePage() {
               <Mail className="size-6 text-red" aria-hidden /> {EMAIL}
             </a>
           </div>
-          <p className="mt-8 text-center text-sm uppercase tracking-[0.14em] text-cream/60">
-            © {new Date().getFullYear()} Garage Door Store Boise. Prices are the shop’s posted specials.
+          <p className="mx-auto mt-8 max-w-3xl px-2 text-center text-sm leading-relaxed text-pretty text-cream/70">
+            © 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab
           </p>
         </div>
       </footer>

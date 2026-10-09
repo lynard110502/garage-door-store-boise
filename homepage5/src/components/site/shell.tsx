@@ -251,7 +251,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           </div>
         </div>
         <div className="wrap legal">
-          <span>© {new Date().getFullYear()} Garage Door Store Boise. Photos and logo belong to the business.</span>
+          <p className="template-sign">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
           <a href={ORIGIN}>Existing site</a>
         </div>
       </footer>

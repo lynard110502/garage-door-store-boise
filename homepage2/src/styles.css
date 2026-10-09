@@ -1493,6 +1493,18 @@ padding-top:1rem;
 font-size:.85rem;
 display:flex
 }
+.foot-sign{
+flex:1 1 16rem;
+min-width:0;
+margin:0;
+color:color-mix(in srgb,var(--color-ivory) 72%,transparent);
+font-size:.82rem;
+font-weight:400;
+letter-spacing:0;
+text-transform:none;
+line-height:1.5;
+text-wrap:pretty
+}
 @media (width>=800px){
 .foot-grid{
 grid-template-columns:1.15fr 1fr .85fr 1.05fr
@@ -2522,6 +2534,7 @@ right:-8vw
   .header-inner { gap: 0.45rem; }
   .site-footer,
   .nav-overlay { padding-bottom: calc(1.4rem + env(safe-area-inset-bottom)); }
+  .foot-base { align-items: flex-start; }
   .hm-hero { min-height: 0; }
   .hm-hero-copy { padding: 1.6rem 1.15rem 1.5rem; gap: 0.9rem; }
   .hm-hero-mark { display: none; }

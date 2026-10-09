@@ -433,7 +433,8 @@ html.nav-open .nav { transform: none; visibility: visible; }
 .prices,
 .foot__grid,
 .foot__social,
-.foot__legal {
+.foot__legal,
+.template-sign {
   width: min(var(--page), 100%);
   margin-inline: auto;
   padding-inline: var(--gutter);
@@ -1871,6 +1872,17 @@ html.nav-open .nav { transform: none; visibility: visible; }
   color: #4a4e52;
   font-size: 0.88rem;
   text-align: left;
+}
+
+.template-sign {
+  max-width: none;
+  margin: 0.95rem 0 0;
+  color: #1c1e21;
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  text-wrap: pretty;
 }
 
 .dock {

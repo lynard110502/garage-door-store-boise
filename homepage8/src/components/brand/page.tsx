@@ -833,10 +833,7 @@ export function BrandPage() {
               <a href="/terms">Terms</a>
             </div>
           </div>
-          <p className="legal">
-            <span>© {new Date().getFullYear()} Garage Door Store Boise</span>
-            <span>Photos of installs belong to the shop. Illustrations on this page are original.</span>
-          </p>
+          <p className="template-sign">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
         </div>
       </footer>
       <div className="mobile-bar">

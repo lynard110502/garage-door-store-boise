@@ -266,7 +266,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <div className="foot-base">
-          <span>© {new Date().getFullYear()} Garage Door Store Boise. Prices shown are the shop’s published figures and can change.</span>
+          <p className="foot-sign">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
           <Link to="/privacy">Privacy</Link>
         </div>
       </footer>

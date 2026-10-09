@@ -16,6 +16,7 @@ export const Route = createFileRoute("/terms")({
 
 function TermsPage() {
   return (
+    <>
     <main className="band cream" id="main">
       <div className="wrap" style={{ display: "grid", gap: "0.9rem", maxWidth: "40rem" }}>
         <p className="kicker">Terms</p>
@@ -43,5 +44,11 @@ function TermsPage() {
         </p>
       </div>
     </main>
+    <footer className="foot">
+      <div className="wrap">
+        <p className="template-sign">© 2026 The Garage Door Template. All Rights Reserved. Lic# XXXXXXXX. Website design by Garage Door Marketing Lab</p>
+      </div>
+    </footer>
+    </>
   );
 }
